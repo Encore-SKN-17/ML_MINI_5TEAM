@@ -343,7 +343,7 @@
 - 의심 : 특성이 데이터를 잘 설명하지 못해 학습이 일어나지 않는다
 - 해결 시도 : 주말 데이터 추가 (기존에는 평일 데이터만 전처리) 
 
-2. **주말 데이터 추가**
+# 2. **주말 데이터 추가**
 ### Ridge 모델
 <img width="361" height="42" alt="image" src="https://github.com/user-attachments/assets/756a68ea-8b31-4e1a-b217-5c4eddc76461" />
 
@@ -357,7 +357,7 @@
 - 의심 : 특성이 데이터를 잘 설명하지 못해 학습이 일어나지 않는다
 - 해결 시도 : 특성 추가 
   
-3. **특성 추가 (3개 추가; 풍속,일사량,미세먼지)**
+# 3. **특성 추가 (3개 추가; 풍속,일사량,미세먼지)**
   1) Linear Regression
 <img width="587" height="31" alt="image" src="https://github.com/user-attachments/assets/a8801efd-7c8d-4a85-ae97-7ad311856ec6" />
 
@@ -370,11 +370,13 @@
   
 3) 규제 선형 모델
 - Ridge
+  
   <img width="485" height="59" alt="image" src="https://github.com/user-attachments/assets/783b8507-edfd-4d66-a672-2188fbeca343" />
 
   R2 score가 25배 증가, 하지만 여전히 매우 낮음 (0.1)
 
 - Lasso
+  
   <img width="488" height="58" alt="image" src="https://github.com/user-attachments/assets/cc6cd017-5aa0-4ec3-a780-392e47423bcd" />
 
   R2 score가 25배 증가, 하지만 여전히 매우 낮음 (0.1))
@@ -403,52 +405,66 @@
 - Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
 - 해결 시도 : 특성 추가
   
-4. **8가지 특성 추가 (오존, 일산화탄소 등...)**
+# 4. **8가지 특성 추가 (오존, 일산화탄소 등...)**
   1) Linear Regression
-![image.png](attachment:69abd76a-31b8-4fa4-abbf-edc5384bd09a:image.png)
+<img width="599" height="47" alt="image" src="https://github.com/user-attachments/assets/fc413560-89d4-4737-a8f6-435574f6df7f" />
+
 - R2 score 변화 없음, 여전히 매우 낮음 (0.1)
 
 2) SVR
-![image.png](attachment:be0fd940-ae34-4c43-bac9-011fc4026623:image.png)
+<img width="599" height="31" alt="image" src="https://github.com/user-attachments/assets/0373d3b7-e60c-425b-878f-c1be952f4aad" />
+
 - R2 score가 약 5배 증가했지만, 하지만 여전히 매우 낮음 0.05
   
 3) 규제 선형 모델
 - Ridge
-  ![image.png](attachment:4738c953-3ba4-4aad-b5a9-b3c28d71096f:image.png)
+  
+  <img width="493" height="61" alt="image" src="https://github.com/user-attachments/assets/3acf27ad-c69c-4365-872f-d65ba2d08036" />
+
   R2 score 변화 없음, 여전히 매우 낮음 (0.1)
 
 - Lasso
-  ![image.png](attachment:16453a13-d0f3-43ac-972a-7afc602fadb6:image.png)
+  
+  <img width="498" height="80" alt="image" src="https://github.com/user-attachments/assets/106b16b1-5981-4f56-bd86-e9d1844393ec" />
+
   R2 score 변화 없음, 여전히 매우 낮음 (0.1)
 
 4) RandomForest
-   ![image.png](attachment:b6e6e59c-b179-40d5-ae08-b7ac49261466:image.png)
+   <img width="615" height="46" alt="image" src="https://github.com/user-attachments/assets/d551dfe1-9953-446f-8bcf-d7fa3f91d8e5" />
+
    R2 score 약간 증가, 여전히 매우 낮음 (0.2)
 
    Testset에 대한 예측도 매우 낮다
 
 5) DecisionTree
-   ![image.png](attachment:a328f97a-87de-4b4b-8c3c-11c36b3445d8:image.png)
+   <img width="632" height="58" alt="image" src="https://github.com/user-attachments/assets/67ceb4c1-0bef-41b0-a45e-467caf90c255" />
+
    R2 score가 매우 낮음 (-2.9)
    
 6) GradientBoosting
+<img width="472" height="247" alt="image" src="https://github.com/user-attachments/assets/22f9b3dd-5801-402f-8223-fc0c41eb7df6" />
+
 - xgBoost
-  ![image.png](attachment:1e36e40c-70d5-4b7f-b3ea-ad4a68fea9ff:image.png)
+
   R2 score가 증가 했지만, 여전히 매우 낮다 (0.2)
   
 - LightBoost
-  ![image.png](attachment:25224e87-a795-4531-8e61-7f8905664b81:image.png)
+
   R2 score가 증가 했지만, 여전히 매우 낮다 (0.2)
 
 ### 문제점 파악 : 상관 관계 파악
-![image.png](attachment:d127f3ba-73e1-43ed-ad93-51f285cc7c51:image.png)
+<img width="660" height="194" alt="image" src="https://github.com/user-attachments/assets/a46238ab-e933-4d19-914a-df2ed9637d1c" />
+
 - Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
 
 ### 문제점 파악 : 특성 중요도 파악 (DecisionTree)
-![image.png](attachment:bb440e21-fbc6-4bca-9839-3dff805c46c7:image.png)
+<img width="711" height="92" alt="image" src="https://github.com/user-attachments/assets/a5f38a39-93f5-469a-818c-ec12322ebfa4" />
+
 - 모델이 feature 5에 과도하게 의존하면서 전체 성능을 깎는 방향으로 작동하고 있었다.
 - 즉, feature_importances_에서 0.84로 엄청 높게 나왔지만, 그게 오히려 모델을 망치는 “해로운” 정보였다는 의미
-![image.png](attachment:0b7263b7-c692-4f78-9a41-b5d3d7e5c42e:image.png)
+  
+<img width="468" height="63" alt="image" src="https://github.com/user-attachments/assets/f86a7eba-feda-457b-808f-0684d3c983ee" />
+
 - 그 특성을 제거하자 모델이 train 상에서는 더 잘 맞춰졌다.
 
 ### 문제점 파악 : 아주 작은 서브셋에서 과적합이 일어나는가 파악
@@ -458,7 +474,8 @@
 
 ### 문제점 파악 : Baseline 예측
 - Baseline : 가장 단순한 예측
-  ![image.png](attachment:6c7fc631-2dc7-4364-b325-3a65960d5237:image.png)
+  <img width="580" height="137" alt="image" src="https://github.com/user-attachments/assets/e6faa62c-b91b-42a9-a418-9d04f991262c" />
+
 - 해당 DummyRegressor는 모든 입력에 대해 타깃의 평균만 예측하는 모델
 - 베이스라인 R² = 0.0, 실제 모델 R² = 0.003
 - 이는 실제 모델이 평균만 예측하는 것보다 아주 조금 나은 수준, 유의미한 설명력을 얻지 못하고 있다는 뜻
