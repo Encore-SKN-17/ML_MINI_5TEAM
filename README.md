@@ -263,10 +263,189 @@
 <br>
 
 # 6. 머신러닝 
+## 6-1 사용한 모델
 
+1. **선형 회귀**
+2. **SVM**
+3. **규제 선형 모델 (Ridge, Lasso)**
+4. Decision Tree
+5. Random Forest
+6. Ensemble (xgBoost, Light Boost)
 
-
+## 6-2 학습 성능 측정 결과
+![image.png](attachment:1e36e40c-70d5-4b7f-b3ea-ad4a68fea9ff:image.png)
+- train set에 대한 성능이 0.149.. ~= 15%로 모델이 데이터 셋을 잘 설명을 하지 못한다는 것을 의미한다 
 ---
+
+## 6-3 모델의 성능 향상을 위한 단계별 접근 
+
+1. **초기 문제점 파악**
+### 초기 특성값 : ride_count (탑승 인원), AvgTemp (평균 온도), Rainfall(강수량), Humidity(습도)
+1) Linear Regression
+![image.png](attachment:be5ff129-eb89-405d-a405-d6a48d1f1b1d:image.png)
+- R2 score가 매우 낮음 (0.001)
+
+2) SVR
+ ![image.png](attachment:e9b8d56e-f559-4862-8346-775a9d5ad5f9:image.png)
+- R2 score가 매우 낮음 (-0.09)
+  
+3) 규제 선형 모델
+- Ridge
+  ![image.png](attachment:e042fdab-9cd4-4f31-ae20-5c7c86194f5d:image.png)
+  R2 score가 매우 낮다 (0.004)
+
+- Lasso
+  ![image.png](attachment:aa9d9c9e-3ac5-4929-b5e6-01e5447c8c97:image.png)
+  R2 score가 매우 낮다 (0.004)
+
+4) RandomForest
+   ![image.png](attachment:7588d13c-076b-4da0-920b-ab44955a5b27:image.png)
+   R2 score 가 매우 낮다 (0.05)
+   
+6) GradientBoosting
+- xgBoost
+  ![image.png](attachment:882af9d5-3b12-457c-9d6c-330d8a59fc39:image.png)
+  R2 score 가 매우 낮다 (0.008)
+  
+- LightBoost
+  ![image.png](attachment:95f97e10-4dd3-4ecb-8b3c-a5d02d62825b:image.png)
+  R2 score가 매우 낮다 (0.07)
+
+## 문제점 파악 : Target data의 정합성 확인
+- 데이터 셋 자체의 문제 확인
+- 타깃의 분산이 0에 가깝다면 모델이 설명할 게 없다 
+![image.png](attachment:16e0fc67-2b70-4754-84bc-b9c8cd257677:image.png)
+- 분산이 높기 때문에 Target dataset의 분포도 문제는 아니다
+
+### 문제점 파악 : 전치리 문제 파악
+- 결측치 / 이상치 처리 실수는 일어나지 않음
+- 통계청 자료 기반이라 데이터 신뢰성도 높다
+
+### 문제점 파악 : 하이퍼파라미터 문제
+- 모든 모델 학습 시도에서 GridSearchCV 또는 RandomizedSearchCV를 이용
+- 후보 하이퍼파라미터를 기입하는 과정에서 잘못된 후보 하이퍼파라미터가 기입될 수 있다는 가능성이 존재하지만, 감안해서라도 score 값이 매우 낮기 때문에 주요 원인이 아니라고 파악 
+
+### 문제점 파악 : 상관 관계 파악
+![image.png](attachment:fd776ea9-e436-4736-9d23-d913d9d63368:image.png)
+- Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
+- 즉, 특성과 Target Data 사이에 아무 상관관계가 없다
+- 의심 : 특성이 데이터를 잘 설명하지 못해 학습이 일어나지 않는다
+- 해결 시도 : 주말 데이터 추가 (기존에는 평일 데이터만 전처리) 
+
+2. **주말 데이터 추가**
+### Ridge 모델
+![image.png](attachment:fd776ea9-e436-4736-9d23-d913d9d63368:image.png)
+  R2 score가 매우 낮다 (0.02) : 오히려 떨어짐 
+
+### 문제점 파악 : 상관 관계 파악
+![image.png](attachment:785a330a-dd8e-4eaa-b444-1fafc21cdba1:image.png)
+-  Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
+- 아무 상관관계 없다
+- 의심 : 특성이 데이터를 잘 설명하지 못해 학습이 일어나지 않는다
+- 해결 시도 : 특성 추가 
+  
+3. **특성 추가 (3개 추가; 풍속,일사량,미세먼지)**
+  1) Linear Regression
+![image.png](attachment:162b4e26-f9b0-472f-a107-e34ef7d98067:image.png)
+- R2 score가 100배 증가, 하지만 여전히 매우 낮음 (0.1)
+
+2) SVR
+![image.png](attachment:85c6e31a-0847-4cda-8fb7-9e3eae477a90:image.png)
+- R2 score가 증가했지만, 하지만 여전히 매우 낮음 (-0.09) --> 0.01
+  
+3) 규제 선형 모델
+- Ridge
+  ![image.png](attachment:ca4fb1f5-52e8-47f0-bd48-d28e695fd771:image.png)
+  R2 score가 25배 증가, 하지만 여전히 매우 낮음 (0.1)
+
+- Lasso
+  ![image.png](attachment:40a4ab44-ad90-40ad-aa6d-25f2f2e06cac:image.png)
+  R2 score가 25배 증가, 하지만 여전히 매우 낮음 (0.1))
+
+4) RandomForest
+   ![image.png](attachment:c56e8289-f5ee-4aef-a4ba-918076fec1bf:image.png)
+   R2 score 가 약 4배 중가, 하지만 여전히 매우 낮다 (0.18)
+
+   Testset에 대한 예측도 매우 낮다
+   
+5) GradientBoosting
+- xgBoost
+  ![image.png](attachment:5968d018-8199-48df-8892-1f8ca671e664:image.png)
+  R2 score가 매우 증가 했지만, 여전히 매우 낮다 (0.13)
+  
+- LightBoost
+  ![image.png](attachment:755d9fa9-ac89-4f5b-ab16-e7559a0c2f6a:image.png)
+  R2 score가 매우 증가 했지만, 여전히 매우 낮다 (0.19)
+
+### 문제점 파악 : 상관 관계 파악 
+![image.png](attachment:b54fc2eb-6560-44e4-af7d-5fe9bb4bb328:image.png)
+- Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
+- 해결 시도 : 특성 추가
+  
+4. **8가지 특성 추가 (오존, 일산화탄소 등...)**
+  1) Linear Regression
+![image.png](attachment:69abd76a-31b8-4fa4-abbf-edc5384bd09a:image.png)
+- R2 score 변화 없음, 여전히 매우 낮음 (0.1)
+
+2) SVR
+![image.png](attachment:be0fd940-ae34-4c43-bac9-011fc4026623:image.png)
+- R2 score가 약 5배 증가했지만, 하지만 여전히 매우 낮음 0.05
+  
+3) 규제 선형 모델
+- Ridge
+  ![image.png](attachment:4738c953-3ba4-4aad-b5a9-b3c28d71096f:image.png)
+  R2 score 변화 없음, 여전히 매우 낮음 (0.1)
+
+- Lasso
+  ![image.png](attachment:16453a13-d0f3-43ac-972a-7afc602fadb6:image.png)
+  R2 score 변화 없음, 여전히 매우 낮음 (0.1)
+
+4) RandomForest
+   ![image.png](attachment:b6e6e59c-b179-40d5-ae08-b7ac49261466:image.png)
+   R2 score 약간 증가, 여전히 매우 낮음 (0.2)
+
+   Testset에 대한 예측도 매우 낮다
+
+5) DecisionTree
+   ![image.png](attachment:a328f97a-87de-4b4b-8c3c-11c36b3445d8:image.png)
+   R2 score가 매우 낮음 (-2.9)
+   
+6) GradientBoosting
+- xgBoost
+  ![image.png](attachment:1e36e40c-70d5-4b7f-b3ea-ad4a68fea9ff:image.png)
+  R2 score가 증가 했지만, 여전히 매우 낮다 (0.2)
+  
+- LightBoost
+  ![image.png](attachment:25224e87-a795-4531-8e61-7f8905664b81:image.png)
+  R2 score가 증가 했지만, 여전히 매우 낮다 (0.2)
+
+### 문제점 파악 : 상관 관계 파악
+![image.png](attachment:d127f3ba-73e1-43ed-ad93-51f285cc7c51:image.png)
+- Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
+
+### 문제점 파악 : 특성 중요도 파악 (DecisionTree)
+![image.png](attachment:bb440e21-fbc6-4bca-9839-3dff805c46c7:image.png)
+- 모델이 feature 5에 과도하게 의존하면서 전체 성능을 깎는 방향으로 작동하고 있었다.
+- 즉, feature_importances_에서 0.84로 엄청 높게 나왔지만, 그게 오히려 모델을 망치는 “해로운” 정보였다는 의미
+![image.png](attachment:0b7263b7-c692-4f78-9a41-b5d3d7e5c42e:image.png)
+- 그 특성을 제거하자 모델이 train 상에서는 더 잘 맞춰졌다.
+
+### 문제점 파악 : 아주 작은 서브셋에서 과적합이 일어나는가 파악
+<img width="569" height="132" alt="image" src="https://github.com/user-attachments/assets/7a1701f0-fe85-4291-807f-d3ae34ee657b" />
+- 여전히 R2 score값이 0.3으로 낮음
+- 의심 : 데이터 / 타깃 사이에 유의미한 관계가 없거나 target data에 문제가 있다
+
+### 문제점 파악 : Baseline 예측
+- Baseline : 가장 단순한 예측
+  ![image.png](attachment:6c7fc631-2dc7-4364-b325-3a65960d5237:image.png)
+- 해당 DummyRegressor는 모든 입력에 대해 타깃의 평균만 예측하는 모델
+- 베이스라인 R² = 0.0, 실제 모델 R² = 0.003
+- 이는 실제 모델이 평균만 예측하는 것보다 아주 조금 나은 수준, 유의미한 설명력을 얻지 못하고 있다는 뜻
+- 의심 : 입력 <--> 타깃 대응에 문제가 있다고 의심
+
+### 향후 Project Develop을 위한 방향성 제시
+1. **특성 추가 및 불필요한 특성 제거**
+2. **Target Data 정교화**
 
 <br>
 <br>
