@@ -295,11 +295,13 @@
   
 3) 규제 선형 모델
 - Ridge
+- 
   <img width="536" height="44" alt="image" src="https://github.com/user-attachments/assets/464215fe-b860-4822-87c2-685e6203f4a0" />
 
   R2 score가 매우 낮다 (0.004)
 
 - Lasso
+- 
   <img width="534" height="51" alt="image" src="https://github.com/user-attachments/assets/58c6564f-2cbf-4c32-b62e-80be9b01129e" />
 
   R2 score가 매우 낮다 (0.004)
