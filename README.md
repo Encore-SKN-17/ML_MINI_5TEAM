@@ -268,12 +268,12 @@
 1. **선형 회귀**
 2. **SVM**
 3. **규제 선형 모델 (Ridge, Lasso)**
-4. Decision Tree
-5. Random Forest
-6. Ensemble (xgBoost, Light Boost)
+4. **Decision Tree**
+5. **Random Forest**
+6. **Ensemble (xgBoost, Light Boost)**
 
 ## 6-2 학습 성능 측정 결과
-![image.png](attachment:1e36e40c-70d5-4b7f-b3ea-ad4a68fea9ff:image.png)
+<img width="372" height="77" alt="image" src="https://github.com/user-attachments/assets/bc12bc87-8df8-4e8a-b566-a5d08b1b82ef" />
 - train set에 대한 성능이 0.149.. ~= 15%로 모델이 데이터 셋을 잘 설명을 하지 못한다는 것을 의미한다 
 ---
 
