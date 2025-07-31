@@ -342,6 +342,7 @@
 - 후보 하이퍼파라미터를 기입하는 과정에서 잘못된 후보 하이퍼파라미터가 기입될 수 있다는 가능성이 존재하지만, 감안해서라도 score 값이 매우 낮기 때문에 주요 원인이 아니라고 파악 
 
 ### 문제점 파악 : 상관 관계 파악
+
 <img width="534" height="140" alt="image" src="https://github.com/user-attachments/assets/173d114a-a6c1-43c1-83d5-a99233ccade6" />
 
 - Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
@@ -351,11 +352,13 @@
 
 # 2. **주말 데이터 추가**
 ### Ridge 모델
+
 <img width="361" height="42" alt="image" src="https://github.com/user-attachments/assets/756a68ea-8b31-4e1a-b217-5c4eddc76461" />
 
   R2 score가 매우 낮다 (0.02) : 오히려 떨어짐 
 
 ### 문제점 파악 : 상관 관계 파악
+
 <img width="364" height="125" alt="image" src="https://github.com/user-attachments/assets/0c84ee47-d279-4c53-ad78-8b903fb8449b" />
 
 -  Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
@@ -365,11 +368,13 @@
   
 # 3. **특성 추가 (3개 추가; 풍속,일사량,미세먼지)**
   1) Linear Regression
+     
 <img width="587" height="31" alt="image" src="https://github.com/user-attachments/assets/a8801efd-7c8d-4a85-ae97-7ad311856ec6" />
 
 - R2 score가 100배 증가, 하지만 여전히 매우 낮음 (0.1)
 
 2) SVR
+   
 <img width="596" height="51" alt="image" src="https://github.com/user-attachments/assets/dce64c7d-e546-4e6b-8aac-52a3d701c0a6" />
 
 - R2 score가 증가했지만, 하지만 여전히 매우 낮음 (-0.09) --> 0.01
@@ -388,13 +393,15 @@
   R2 score가 25배 증가, 하지만 여전히 매우 낮음 (0.1))
 
 4) RandomForest
+   
    <img width="472" height="39" alt="image" src="https://github.com/user-attachments/assets/cb7914bb-87a3-4794-9f93-c7edf8615adc" />
 
    R2 score 가 약 4배 중가, 하지만 여전히 매우 낮다 (0.18)
 
    Testset에 대한 예측도 매우 낮다
    
-5) GradientBoosting
+6) GradientBoosting
+   
    <img width="437" height="217" alt="image" src="https://github.com/user-attachments/assets/6c183a93-e43b-429e-84d6-3df4d80c4dde" />
 
 - xgBoost
@@ -405,7 +412,8 @@
  
   R2 score가 매우 증가 했지만, 여전히 매우 낮다 (0.19)
 
-### 문제점 파악 : 상관 관계 파악 
+### 문제점 파악 : 상관 관계 파악
+
 <img width="633" height="163" alt="image" src="https://github.com/user-attachments/assets/b0af1fcb-d468-4c07-b6b1-0e47c7733e92" />
 
 - Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
@@ -413,11 +421,13 @@
   
 # 4. **8가지 특성 추가 (오존, 일산화탄소 등...)**
   1) Linear Regression
+     
 <img width="599" height="47" alt="image" src="https://github.com/user-attachments/assets/fc413560-89d4-4737-a8f6-435574f6df7f" />
 
 - R2 score 변화 없음, 여전히 매우 낮음 (0.1)
 
 2) SVR
+   
 <img width="599" height="31" alt="image" src="https://github.com/user-attachments/assets/0373d3b7-e60c-425b-878f-c1be952f4aad" />
 
 - R2 score가 약 5배 증가했지만, 하지만 여전히 매우 낮음 0.05
@@ -436,18 +446,21 @@
   R2 score 변화 없음, 여전히 매우 낮음 (0.1)
 
 4) RandomForest
+   
    <img width="615" height="46" alt="image" src="https://github.com/user-attachments/assets/d551dfe1-9953-446f-8bcf-d7fa3f91d8e5" />
 
    R2 score 약간 증가, 여전히 매우 낮음 (0.2)
 
    Testset에 대한 예측도 매우 낮다
 
-5) DecisionTree
+6) DecisionTree
+   
    <img width="632" height="58" alt="image" src="https://github.com/user-attachments/assets/67ceb4c1-0bef-41b0-a45e-467caf90c255" />
 
    R2 score가 매우 낮음 (-2.9)
    
-6) GradientBoosting
+8) GradientBoosting
+   
 <img width="472" height="247" alt="image" src="https://github.com/user-attachments/assets/22f9b3dd-5801-402f-8223-fc0c41eb7df6" />
 
 - xgBoost
@@ -459,11 +472,13 @@
   R2 score가 증가 했지만, 여전히 매우 낮다 (0.2)
 
 ### 문제점 파악 : 상관 관계 파악
+
 <img width="660" height="194" alt="image" src="https://github.com/user-attachments/assets/a46238ab-e933-4d19-914a-df2ed9637d1c" />
 
 - Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
 
 ### 문제점 파악 : 특성 중요도 파악 (DecisionTree)
+
 <img width="711" height="92" alt="image" src="https://github.com/user-attachments/assets/a5f38a39-93f5-469a-818c-ec12322ebfa4" />
 
 - 모델이 feature 5에 과도하게 의존하면서 전체 성능을 깎는 방향으로 작동하고 있었다.
@@ -474,12 +489,14 @@
 - 그 특성을 제거하자 모델이 train 상에서는 더 잘 맞춰졌다.
 
 ### 문제점 파악 : 아주 작은 서브셋에서 과적합이 일어나는가 파악
+
 <img width="569" height="132" alt="image" src="https://github.com/user-attachments/assets/7a1701f0-fe85-4291-807f-d3ae34ee657b" />
 - 여전히 R2 score값이 0.3으로 낮음
 - 의심 : 데이터 / 타깃 사이에 유의미한 관계가 없거나 target data에 문제가 있다
 
 ### 문제점 파악 : Baseline 예측
 - Baseline : 가장 단순한 예측
+  
   <img width="580" height="137" alt="image" src="https://github.com/user-attachments/assets/e6faa62c-b91b-42a9-a418-9d04f991262c" />
 
 - 해당 DummyRegressor는 모든 입력에 대해 타깃의 평균만 예측하는 모델
