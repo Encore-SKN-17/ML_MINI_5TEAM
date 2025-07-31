@@ -274,7 +274,9 @@
 
 ## 6-2 학습 성능 측정 결과
 <img width="372" height="77" alt="image" src="https://github.com/user-attachments/assets/bc12bc87-8df8-4e8a-b566-a5d08b1b82ef" />
-- train set에 대한 성능이 0.149.. ~= 15%로 모델이 데이터 셋을 잘 설명을 하지 못한다는 것을 의미한다 
+
+- train set에 대한 성능이 0.149.. ~= 15%로 모델이 데이터 셋을 잘 설명을 하지 못한다는 것을 의미한다
+  
 ---
 
 ## 6-3 모델의 성능 향상을 위한 단계별 접근 
@@ -282,39 +284,47 @@
 1. **초기 문제점 파악**
 ### 초기 특성값 : ride_count (탑승 인원), AvgTemp (평균 온도), Rainfall(강수량), Humidity(습도)
 1) Linear Regression
-![image.png](attachment:be5ff129-eb89-405d-a405-d6a48d1f1b1d:image.png)
+<img width="552" height="15" alt="image" src="https://github.com/user-attachments/assets/73d582c3-d687-4226-9976-e5580b93f59e" />
+
 - R2 score가 매우 낮음 (0.001)
 
 2) SVR
- ![image.png](attachment:e9b8d56e-f559-4862-8346-775a9d5ad5f9:image.png)
+ <img width="555" height="26" alt="image" src="https://github.com/user-attachments/assets/1ac3a934-cb34-4a2e-b047-bf0c68160f98" />
+
 - R2 score가 매우 낮음 (-0.09)
   
 3) 규제 선형 모델
 - Ridge
-  ![image.png](attachment:e042fdab-9cd4-4f31-ae20-5c7c86194f5d:image.png)
+  <img width="536" height="44" alt="image" src="https://github.com/user-attachments/assets/464215fe-b860-4822-87c2-685e6203f4a0" />
+
   R2 score가 매우 낮다 (0.004)
 
 - Lasso
-  ![image.png](attachment:aa9d9c9e-3ac5-4929-b5e6-01e5447c8c97:image.png)
+  <img width="534" height="51" alt="image" src="https://github.com/user-attachments/assets/58c6564f-2cbf-4c32-b62e-80be9b01129e" />
+
   R2 score가 매우 낮다 (0.004)
 
 4) RandomForest
-   ![image.png](attachment:7588d13c-076b-4da0-920b-ab44955a5b27:image.png)
+   <img width="551" height="41" alt="image" src="https://github.com/user-attachments/assets/99b29b19-c781-4d4b-bdfa-6d79616d75bb" />
+
    R2 score 가 매우 낮다 (0.05)
    
-6) GradientBoosting
+5) GradientBoosting
 - xgBoost
-  ![image.png](attachment:882af9d5-3b12-457c-9d6c-330d8a59fc39:image.png)
+  <img width="376" height="80" alt="image" src="https://github.com/user-attachments/assets/845e4040-3e84-4668-8503-b4540f5a2f12" />
+
   R2 score 가 매우 낮다 (0.008)
   
 - LightBoost
-  ![image.png](attachment:95f97e10-4dd3-4ecb-8b3c-a5d02d62825b:image.png)
+  <img width="361" height="57" alt="image" src="https://github.com/user-attachments/assets/c2f81629-d4d8-4639-be45-56332887c041" />
+
   R2 score가 매우 낮다 (0.07)
 
 ## 문제점 파악 : Target data의 정합성 확인
 - 데이터 셋 자체의 문제 확인
 - 타깃의 분산이 0에 가깝다면 모델이 설명할 게 없다 
-![image.png](attachment:16e0fc67-2b70-4754-84bc-b9c8cd257677:image.png)
+<img width="381" height="67" alt="image" src="https://github.com/user-attachments/assets/9a0f09bc-61fe-44a7-b3fd-b3e82da781a2" />
+
 - 분산이 높기 때문에 Target dataset의 분포도 문제는 아니다
 
 ### 문제점 파악 : 전치리 문제 파악
@@ -326,7 +336,8 @@
 - 후보 하이퍼파라미터를 기입하는 과정에서 잘못된 후보 하이퍼파라미터가 기입될 수 있다는 가능성이 존재하지만, 감안해서라도 score 값이 매우 낮기 때문에 주요 원인이 아니라고 파악 
 
 ### 문제점 파악 : 상관 관계 파악
-![image.png](attachment:fd776ea9-e436-4736-9d23-d913d9d63368:image.png)
+<img width="534" height="140" alt="image" src="https://github.com/user-attachments/assets/173d114a-a6c1-43c1-83d5-a99233ccade6" />
+
 - Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
 - 즉, 특성과 Target Data 사이에 아무 상관관계가 없다
 - 의심 : 특성이 데이터를 잘 설명하지 못해 학습이 일어나지 않는다
@@ -334,11 +345,13 @@
 
 2. **주말 데이터 추가**
 ### Ridge 모델
-![image.png](attachment:fd776ea9-e436-4736-9d23-d913d9d63368:image.png)
+<img width="361" height="42" alt="image" src="https://github.com/user-attachments/assets/756a68ea-8b31-4e1a-b217-5c4eddc76461" />
+
   R2 score가 매우 낮다 (0.02) : 오히려 떨어짐 
 
 ### 문제점 파악 : 상관 관계 파악
-![image.png](attachment:785a330a-dd8e-4eaa-b444-1fafc21cdba1:image.png)
+<img width="364" height="125" alt="image" src="https://github.com/user-attachments/assets/0c84ee47-d279-4c53-ad78-8b903fb8449b" />
+
 -  Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
 - 아무 상관관계 없다
 - 의심 : 특성이 데이터를 잘 설명하지 못해 학습이 일어나지 않는다
@@ -346,39 +359,47 @@
   
 3. **특성 추가 (3개 추가; 풍속,일사량,미세먼지)**
   1) Linear Regression
-![image.png](attachment:162b4e26-f9b0-472f-a107-e34ef7d98067:image.png)
+<img width="587" height="31" alt="image" src="https://github.com/user-attachments/assets/a8801efd-7c8d-4a85-ae97-7ad311856ec6" />
+
 - R2 score가 100배 증가, 하지만 여전히 매우 낮음 (0.1)
 
 2) SVR
-![image.png](attachment:85c6e31a-0847-4cda-8fb7-9e3eae477a90:image.png)
+<img width="596" height="51" alt="image" src="https://github.com/user-attachments/assets/dce64c7d-e546-4e6b-8aac-52a3d701c0a6" />
+
 - R2 score가 증가했지만, 하지만 여전히 매우 낮음 (-0.09) --> 0.01
   
 3) 규제 선형 모델
 - Ridge
-  ![image.png](attachment:ca4fb1f5-52e8-47f0-bd48-d28e695fd771:image.png)
+  <img width="485" height="59" alt="image" src="https://github.com/user-attachments/assets/783b8507-edfd-4d66-a672-2188fbeca343" />
+
   R2 score가 25배 증가, 하지만 여전히 매우 낮음 (0.1)
 
 - Lasso
-  ![image.png](attachment:40a4ab44-ad90-40ad-aa6d-25f2f2e06cac:image.png)
+  <img width="488" height="58" alt="image" src="https://github.com/user-attachments/assets/cc6cd017-5aa0-4ec3-a780-392e47423bcd" />
+
   R2 score가 25배 증가, 하지만 여전히 매우 낮음 (0.1))
 
 4) RandomForest
-   ![image.png](attachment:c56e8289-f5ee-4aef-a4ba-918076fec1bf:image.png)
+   <img width="472" height="39" alt="image" src="https://github.com/user-attachments/assets/cb7914bb-87a3-4794-9f93-c7edf8615adc" />
+
    R2 score 가 약 4배 중가, 하지만 여전히 매우 낮다 (0.18)
 
    Testset에 대한 예측도 매우 낮다
    
 5) GradientBoosting
+   <img width="437" height="217" alt="image" src="https://github.com/user-attachments/assets/6c183a93-e43b-429e-84d6-3df4d80c4dde" />
+
 - xgBoost
-  ![image.png](attachment:5968d018-8199-48df-8892-1f8ca671e664:image.png)
+
   R2 score가 매우 증가 했지만, 여전히 매우 낮다 (0.13)
   
 - LightBoost
-  ![image.png](attachment:755d9fa9-ac89-4f5b-ab16-e7559a0c2f6a:image.png)
+ 
   R2 score가 매우 증가 했지만, 여전히 매우 낮다 (0.19)
 
 ### 문제점 파악 : 상관 관계 파악 
-![image.png](attachment:b54fc2eb-6560-44e4-af7d-5fe9bb4bb328:image.png)
+<img width="633" height="163" alt="image" src="https://github.com/user-attachments/assets/b0af1fcb-d468-4c07-b6b1-0e47c7733e92" />
+
 - Target Data(ride_count)와 다른 변수들과의 상관 계수가 0에 가깝다
 - 해결 시도 : 특성 추가
   
