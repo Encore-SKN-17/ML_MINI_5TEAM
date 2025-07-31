@@ -88,7 +88,7 @@
 - 지하철 혼잡도는 **시민 안전과 직결되는 데이터**  
 - **기상 요인을 반영한 예측 시스템이 현재 부재**  
 - 이용자들은 날씨별 혼잡도 정보를 통해 **최적 이동 루트** 를 제공
-** ⇒ 혼잡도 + 기상 요인을 반영한 예측 시스템 구축 필요**
+ ** ⇒ 혼잡도 + 기상 요인을 반영한 예측 시스템 구축 필요**
 
 ---
 
@@ -115,9 +115,18 @@
 <br>
 <br>
 
-## 3. 데이터 
+-----
+# 3. 기술 스택
+|Python|Github|Pandas|Matplotlib|
+|---|---|---|---|
+|<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">|<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">|<img src="https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white">|<img src='https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black'>|
 
-### 3.1 서울시 지하철 호선별 승하차 수 데이터 🚈
+<br>
+<br>
+
+## 4. 데이터 
+
+### 4.1 서울시 지하철 호선별 승하차 수 데이터 🚈
 
 | 항목            | 내용                                                                                                      |
 |-----------------|-----------------------------------------------------------------------------------------------------------|
@@ -133,7 +142,7 @@
 
 <br>
 
-### 3.2 기상 데이터 🌦️
+### 4.2 기상 데이터 🌦️
 | 항목              | 내용                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------|
 | **데이터명**         | 서울시 기상데이터                                                                                       |
@@ -149,11 +158,11 @@
 
 <br>
 
-### 3.3 미세먼지 데이터 😷 
+### 4.3 미세먼지 데이터 😷 
 | 항목              | 내용                                                                                                    |
 |-------------------|---------------------------------------------------------------------------------------------------------|
 | **데이터명**         | 서울시 미세먼지 데이터                                                                                       |
-| **데이터 출처**       | https://cleanair.seoul.go.kr/statistics/dayAverage    |
+| **데이터 출처**       | [https://cleanair.seoul.go.kr/statistics/dayAverage ](https://cleanair.seoul.go.kr/?area=111121&type=pm25)   |
 | **데이터 기간**        | 2019.01.01 ~ 2024.12.31                                                                                |
 | **데이터 크기**         | 약 79KB                                                                                                |
 | **데이터 수집 방법**     | 엑셀다운로드                                                                                         |
@@ -165,34 +174,67 @@
 <br>
 
 -----
-# 4. 기술 스택
-|Python|Github|Pandas|Matplotlib|
-|---|---|---|---|
-|<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">|<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">|<img src="https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white">|<img src='https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black'>|
+# 5. 전처리과정
 
-<br>
-<br>
+**지하철 데이터, 기상 데이터, 미세먼지 데이터를 통합하여 모델링에 활용할 수 있는 최종 데이터셋을 구축했습니다.**
 
------
-# 5. 전처리과정
+---
 
-### 5.1 기상 데이터 전처리 
-<br>
+## 5.1 지하철 데이터 전처리
+- **이상치 제거:**  
+  - 일별 승차 인원 데이터에서 사분위수(IQR) 기반 **박스플롯(Boxplot)**을 활용하여 이상치를 제거  
+  - [ '날짜별 지하철 총 승하차 인원' ]  
+    <img width="1143" height="645" alt="지하철 이상치 제거 전" src="https://github.com/user-attachments/assets/8bd61231-4f8a-4d2d-a2f3-e5303eb63f5e" />
 
-### 5.2 지하철 승하차 인구 데이터 전처리 
-<br>
-(1) 불필요 칼럼 제거 
-(2) 평일만 추출 
-  목적 :  공휴일, 주말은 승차량이 압도적으로 적어, 데이터의 일관성을 해치므로 제거함 (요일 변수 통제) 평일 데이터만 추출해 기상이 승차량에 끼치는 영향만 확인하기 위함 
-  - 'date'칼럼 datatime으로 변환 후 weekday(평일)만 필터링 
-  - 공휴일 제거 
-    - holidays 메서드를 사용해 한국의 공휴일을 제거 
-    <br>
-    [ 주말/공휴일 제거 후 '날짜별 지하철 총 승하차 인원' ]
-    <img width="1143" height="645" alt="지하철_이상치_전" src="https://github.com/user-attachments/assets/8bd61231-4f8a-4d2d-a2f3-e5303eb63f5e" />
-    <br>
+## 5.2 기상 데이터 전처리
+- **결측치 처리:**  
+  - 강수량, 적설량 등 결측값은 **0으로 채움**  
+  - 실제 값이 없는 경우 강수나 적설이 없는 상태로 간주  
 
-    - 
+## 5.3 미세먼지 데이터 전처리
+- **결측치 처리:**  
+  - 미세먼지(PM2.5, PM10) 관련 변수의 결측값은 **중앙값(Median)** 으로 대체  
+
+## 5.4 주말/공휴일 Flag 생성
+- **flag 변수(`holiday_flag`) 구축:**  
+  - `date` 컬럼을 기준으로 해당 날짜가 **주말(토/일) 또는 공휴일인 경우 1, 평일인 경우 0으로 설정**  
+  - 공휴일 정보는 `holidays` 라이브러리를 사용하여 판별  
+  - 요일 편차를 제거하기 위한 분석 변수로 사용  
+
+## 5.5 데이터 통합
+- **통합 기준:**  
+  - `date`(날짜) 컬럼을 기준으로 세 데이터셋(지하철 + 기상 + 미세먼지)을 병합  
+  - 최종적으로 **각 날짜별 지하철 승차 인원 + 기상 요인 + 미세먼지 데이터 + 주말/공휴일 flag**가 포함된 통합 데이터셋 구축  
+
+---
+
+## 데이터 컬럼 설명
+총 21,920개 행, 9개 칼럼으로 구성
+| No. | 컬럼명               | Non-Null Count | 데이터 타입   | 설명                                  |
+|-----|---------------------|----------------|--------------|--------------------------------------|
+| 0   | `Unnamed: 0`        | 21,920         | int64        | 인덱스 컬럼 (데이터프레임 저장 시 생성) |
+| 1   | `date`              | 21,920         | object       | 날짜 (YYYY.MM.DD)                     |
+| 2   | `ride_count`        | 21,920         | float64      | 지하철 승차 인원                        |
+| 3   | `AvgTemp(°C)`       | 21,920         | float64      | 평균 기온 (℃)                          |
+| 4   | `Rainfall(mm)`      | 21,920         | float64      | 강수량 (mm)                            |
+| 5   | `WindSpeed(m/s)`    | 21,920         | float64      | 풍속 (m/s)                             |
+| 6   | `Humidity(%)`       | 21,920         | float64      | 평균 습도 (%)                          |
+| 7   | `isolation(MJ/m2)`  | 21,920         | float64      | 일사량 (MJ/m²)                         |
+| 8   | `holiday_flag`      | 21,920         | int64        | 공휴일 여부 (1=공휴일/주말, 0=평일)      |
+
+
+---
+
+## 최종 데이터셋 예시
+
+| date     | ride_count | AvgTemp(째C) | Rainfall(mm) | WindSpeed(m/s) | Humidity(%) | isolation(MJ/m2) | holiday_flag |
+|----------|------------|--------------|--------------|----------------|-------------|-------------------|---------------|
+| 2019.1.1 | 39420      | -5           | 0            | 2.1            | 49.5        | 7.84              | 1             |
+| 2019.1.1 | 11807      | -5           | 0            | 2.1            | 49.5        | 7.84              | 1             |
+| 2019.1.1 | 20944      | -5           | 0            | 2.1            | 49.5        | 7.84              | 1             |
+| 2019.1.1 | 17798      | -5           | 0            | 2.1            | 49.5        | 7.84              | 1             |
+
+
     
 
 -----
