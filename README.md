@@ -491,6 +491,7 @@
 ### 문제점 파악 : 아주 작은 서브셋에서 과적합이 일어나는가 파악
 
 <img width="569" height="132" alt="image" src="https://github.com/user-attachments/assets/7a1701f0-fe85-4291-807f-d3ae34ee657b" />
+
 - 여전히 R2 score값이 0.3으로 낮음
 - 의심 : 데이터 / 타깃 사이에 유의미한 관계가 없거나 target data에 문제가 있다
 
