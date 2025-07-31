@@ -295,36 +295,40 @@
   
 3) 규제 선형 모델
 - Ridge
-- 
+  
   <img width="536" height="44" alt="image" src="https://github.com/user-attachments/assets/464215fe-b860-4822-87c2-685e6203f4a0" />
 
   R2 score가 매우 낮다 (0.004)
 
 - Lasso
-- 
+  
   <img width="534" height="51" alt="image" src="https://github.com/user-attachments/assets/58c6564f-2cbf-4c32-b62e-80be9b01129e" />
 
   R2 score가 매우 낮다 (0.004)
 
 4) RandomForest
+   
    <img width="551" height="41" alt="image" src="https://github.com/user-attachments/assets/99b29b19-c781-4d4b-bdfa-6d79616d75bb" />
 
    R2 score 가 매우 낮다 (0.05)
    
-5) GradientBoosting
+6) GradientBoosting
 - xgBoost
+  
   <img width="376" height="80" alt="image" src="https://github.com/user-attachments/assets/845e4040-3e84-4668-8503-b4540f5a2f12" />
 
   R2 score 가 매우 낮다 (0.008)
   
 - LightBoost
+  
   <img width="361" height="57" alt="image" src="https://github.com/user-attachments/assets/c2f81629-d4d8-4639-be45-56332887c041" />
 
   R2 score가 매우 낮다 (0.07)
 
 ## 문제점 파악 : Target data의 정합성 확인
 - 데이터 셋 자체의 문제 확인
-- 타깃의 분산이 0에 가깝다면 모델이 설명할 게 없다 
+- 타깃의 분산이 0에 가깝다면 모델이 설명할 게 없다
+  
 <img width="381" height="67" alt="image" src="https://github.com/user-attachments/assets/9a0f09bc-61fe-44a7-b3fd-b3e82da781a2" />
 
 - 분산이 높기 때문에 Target dataset의 분포도 문제는 아니다
